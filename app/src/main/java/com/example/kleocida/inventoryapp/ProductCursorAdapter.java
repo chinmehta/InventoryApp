@@ -67,47 +67,14 @@ public class ProductCursorAdapter extends CursorAdapter {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                final EditText edittext = new EditText(v.getContext());
-                edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
-                builder.setMessage(activity.getString(R.string.selling_quantity));
-                builder.setView(edittext);
-
-                builder.setPositiveButton(activity.getString(R.string.confirm), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        int subtract;
-                        if (TextUtils.isEmpty(edittext.getText().toString().trim())) {
-                            subtract = 0;
-                        } else {
-                            subtract = Integer.parseInt(edittext.getText().toString().trim());
-                        }
-
-                        if (mQuantity - subtract >= 0) {
-                            activity.onSaleClick(id, mName, mPrice, mSupname, mSupplier, mQuantity, subtract);
+                        if (mQuantity  > 0) {
+                            activity.onSaleClick(id, mName, mPrice, mSupname, mSupplier, mQuantity, 1);
                             Toast.makeText(activity, "Sell successfull", Toast.LENGTH_SHORT).show();
 
-                        } else if (mQuantity - subtract < 0) {
-                            Toast.makeText(activity, "Only " + mQuantity + " products available !", Toast.LENGTH_SHORT).show();
+                        } else if (mQuantity  <= 0) {
+                            Toast.makeText(activity, "Stock is empty!!", Toast.LENGTH_SHORT).show();
                         }
 
-                    }
-                });
-
-                builder.setNegativeButton(activity.getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        if (dialog != null) {
-                            dialog.dismiss();
-                        }
-                    }
-                });
-
-
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
             }
         });
 
