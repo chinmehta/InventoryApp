@@ -192,6 +192,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case R.id.action_save:
 
                 String stringName = mNameEditText.getText().toString().trim();
@@ -201,15 +202,21 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 String stringSupmail = mSupmailEditText.getText().toString().trim();
 
                 byte[] img = getBytes(inventory_image);
+                Boolean condition1=Boolean.FALSE,condition2=Boolean.FALSE;
 
-                if ((stringName.length() < 3) || (stringPrice.length() < 1 || stringPrice.length() > 10) || (stringQuantity.length() < 1 || stringQuantity.length() > 10) || (stringSupmail.length() < 3) || (stringSupname.length() < 3))
+                if (TextUtils.isEmpty(stringName) || TextUtils.isEmpty(stringPrice) || TextUtils.isEmpty(stringQuantity) ||
+                        TextUtils.isEmpty(stringSupmail) ||TextUtils.isEmpty(stringSupname) ) {
                     showToast(getString(R.string.add_allinfo));
-
+                     condition1=Boolean.FALSE;
+                }
+                else condition1=Boolean.TRUE;
                 if ((img == null)&& (inventoryUri == null))  {
                     showToast(getString(R.string.selectPicture));
+                     condition2=Boolean.FALSE;
                 }
+                else condition2=Boolean.TRUE;
 
-                else {
+                if((condition1==Boolean.TRUE)&&condition2==Boolean.TRUE) {
                     saveProduct();
                     finish();
                 }
