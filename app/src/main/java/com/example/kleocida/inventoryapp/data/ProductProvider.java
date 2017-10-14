@@ -13,31 +13,41 @@ import android.util.Log;
 
 import com.example.kleocida.inventoryapp.data.ProductContract.InventoryEntry;
 
-/**
- * Created by kleocida on 07/06/17.
- */
 
-/* CONTENT PROVIDER FOR UNIVERSAL INVENTORY */
-public class ProductProvider extends ContentProvider {
+
+/* CONTENT PROVIDER FOR
+UNIVERSAL INVENTORY */
+public class ProductProvider extends ContentProvider
+{
     /* TAG FOR LOG MESSAGE */
     public static final String LOG_TAG = ProductProvider.class.getSimpleName();
-    /* URI MATCHER FOR THE INVENTORY TABLE */
+    /* URI MATCHER FOR
+    THE INVENTORY TABLE */
+
     private static final int INVENTORY = 100;
-    /* URI MATCHER FOR A SINGLE ITEM FROM INVENTORY TABLE */
+    /* URI MATCHER FOR A
+    SINGLE ITEM FROM INVENTORY TABLE */
+
     private static final int INVENTORY_ID = 101;
-    /* URI MATCHER TO SELECT CORRECT URI */
+    /* URI MATCHER TO
+    SELECT CORRECT URI */
+
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-    /* ADD URIS TO URI MATCHER */
-    static {
+    /* ADD URIS TO
+     URI MATCHER */
+    static
+    {
         sUriMatcher.addURI(ProductContract.CONTENT_AUTHORITY, ProductContract.PATH_INVENTORY, INVENTORY);
         sUriMatcher.addURI(ProductContract.CONTENT_AUTHORITY, ProductContract.PATH_INVENTORY + "/#", INVENTORY_ID);
     }
-    /* DATABASE HELPER OBJECT */
+    /* DATABASE HELPER
+     OBJECT */
     private ProductDbHelper mDbHelper;
-    /* INITIALIZE THE DATABASE HELPER */
+    /* INITIALIZE
+     THE DATABASE HELPER */
     @Override
-    public boolean onCreate() {
-
+    public boolean onCreate()
+    {
         mDbHelper = new ProductDbHelper(getContext());
         return true;
     }
@@ -53,7 +63,8 @@ public class ProductProvider extends ContentProvider {
           /* SELECT THE CORRECT CASE BASED ON URI MATCHER */
         int match = sUriMatcher.match(uri);
 
-        switch (match) {
+        switch (match)
+        {
             case INVENTORY:
                 /* QUERY TABLE */
                 cursor = db.query(InventoryEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
@@ -68,14 +79,16 @@ public class ProductProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Cannot Resolve URI " + uri);
         }
-  /* HANDLE TABLE CHANGE */
+  /* HANDLE TABLE
+   CHANGE */
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
 
     @Nullable
     @Override
-    public String getType(@NonNull Uri uri) {
+    public String getType(@NonNull Uri uri)
+    {
 
         final int match = sUriMatcher.match(uri);
 
@@ -89,20 +102,7 @@ public class ProductProvider extends ContentProvider {
         }
 
     }
-    /* INSERT NEW DATA IN TABLE */
-    @Nullable
-    @Override
-    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
 
-        final int match = sUriMatcher.match(uri);
-        switch (match) {
-            case INVENTORY:
-                return insertInventory(uri, values);
-            default:
-                throw new IllegalArgumentException("Insertion is not supported for " + uri);
-        }
-
-    }
     /* METHOD TO INSERT DATA */
     private Uri insertInventory(Uri uri, ContentValues values) {
         String productName = values.getAsString(InventoryEntry.PRODUCT_NAME);
@@ -141,37 +141,25 @@ public class ProductProvider extends ContentProvider {
         return ContentUris.withAppendedId(uri, id);
     }
 
-    /* DELETE TABLE DATA OR SELECTED ITEM BASED ON SELECTION AND SELECTION ARGS */
+    /* INSERT NEW DATA IN TABLE */
+    @Nullable
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-        int rowsDeleted;
+    public Uri insert(@NonNull Uri uri, @Nullable ContentValues values)
+    {
 
         final int match = sUriMatcher.match(uri);
-
         switch (match) {
             case INVENTORY:
-                rowsDeleted = db.delete(InventoryEntry.TABLE_NAME, selection, selectionArgs);
-                break;
-            case INVENTORY_ID:
-                selection = InventoryEntry._ID + "=?";
-                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-
-                rowsDeleted = db.delete(InventoryEntry.TABLE_NAME, selection, selectionArgs);
-                break;
+                return insertInventory(uri, values);
             default:
-                throw new IllegalArgumentException("Unknown Uri " + uri + "with match " + match);
+                throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
 
-        if (rowsDeleted != 0) {
-            getContext().getContentResolver().notifyChange(uri, null);
-        }
-        // Return the number of rows deleted
-        return rowsDeleted;
     }
-    /* UPDATE TABLE OR SELECTED ITEM BASED ON SELECTION AD SELECTION RGS */
+
+
+    /* UPDATE TABLE OR SELECTED
+    ITEM BASED ON SELECTION AD SELECTION RGS */
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
 
@@ -233,5 +221,35 @@ public class ProductProvider extends ContentProvider {
 
         return rowsUpdated;
 
+    }
+    /* DELETE TABLE DATA OR SELECTED ITEM BASED ON SELECTION AND SELECTION ARGS */
+    @Override
+    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        int rowsDeleted;
+
+        final int match = sUriMatcher.match(uri);
+
+        switch (match) {
+            case INVENTORY:
+                rowsDeleted = db.delete(InventoryEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case INVENTORY_ID:
+                selection = InventoryEntry._ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+
+                rowsDeleted = db.delete(InventoryEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown Uri " + uri + "with match " + match);
+        }
+
+        if (rowsDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        // Return the number of rows deleted
+        return rowsDeleted;
     }
 }

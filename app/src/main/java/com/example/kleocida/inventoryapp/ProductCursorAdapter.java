@@ -18,9 +18,6 @@ import android.widget.Toast;
 import com.example.kleocida.inventoryapp.data.ProductContract.InventoryEntry;
 
 
-/**
- * Created by kleocida on 07/06/17.
- */
 
 
 public class ProductCursorAdapter extends CursorAdapter {

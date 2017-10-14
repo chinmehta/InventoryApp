@@ -37,11 +37,9 @@ import com.example.kleocida.inventoryapp.data.ProductContract.InventoryEntry;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-/**
- * Created by kleocida on 07/06/17.
- */
-public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
+public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>
+{
 
     private static final int SELECT_PHOTO = 100;
     private static final int EXISTING_URI = 0;
@@ -74,41 +72,44 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         } else {
             return null;
         }
-
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
         inventoryUri = getIntent().getData();
 
-        if (inventoryUri == null) {
+        if (inventoryUri == null)
+        {
             setTitle(getString(R.string.add_product));
             invalidateOptionsMenu();
-        } else {
+        } else
+            {
             setTitle(getString(R.string.edit_product));
             getSupportLoaderManager().initLoader(EXISTING_URI, null, this);
         }
 
 
         inventoryImage = (ImageView) findViewById(R.id.product_image);
-        mNameEditText = (EditText) findViewById(R.id.edit_product_name);
-        mPriceEditText = (EditText) findViewById(R.id.edit_product_price);
         mQuantityEditText = (EditText) findViewById(R.id.edit_product_quantity);
-        mSupnameEditText = (EditText) findViewById(R.id.edit_product_supname);
+        mPriceEditText = (EditText) findViewById(R.id.edit_product_price);
         mSupmailEditText = (EditText) findViewById(R.id.edit_product_supmail);
+        mNameEditText = (EditText) findViewById(R.id.edit_product_name);
+        mSupnameEditText = (EditText) findViewById(R.id.edit_product_supname);
+
         FloatingActionButton gallery = (FloatingActionButton) findViewById(R.id.add_image);
 
         mNameEditText.setOnTouchListener(mTouchListener);
-        mPriceEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
-        mSupnameEditText.setOnTouchListener(mTouchListener);
+        mPriceEditText.setOnTouchListener(mTouchListener);
         mSupmailEditText.setOnTouchListener(mTouchListener);
+        mSupnameEditText.setOnTouchListener(mTouchListener);
 
-
-        gallery.setOnClickListener(new View.OnClickListener() {
+        gallery.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
 
@@ -121,18 +122,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     }
 
-    public void trySelector() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-            return;
-        }
-        openSelector();
-    }
 
-    private void openSelector() {
+
+    private void openSelector()
+    {
         Intent intent;
         if (Build.VERSION.SDK_INT < 19) {
             intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -143,20 +136,23 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         intent.setType(getString(R.string.intentType));
         startActivityForResult(Intent.createChooser(intent, getString(R.string.selectPicture)), 0);
     }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 1:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    openSelector();
-                }
+    public void trySelector()
+    {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            return;
         }
+        openSelector();
     }
+
 
     // SELECT_PHOTO:
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         if (resultCode == RESULT_OK && null != data) {
             Uri imageUri = data.getData();
 
@@ -168,7 +164,16 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             inventoryImage.setImageBitmap(inventory_image);
         }
     }
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openSelector();
+                }
+        }
+    }
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         if (inventoryUri == null) {
@@ -236,7 +241,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         return super.onOptionsItemSelected(item);
     }
 
-    private void showDeleteConfirmationDialog() {
+    private void showDeleteConfirmationDialog()
+    {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getString(R.string.delete_current_product));
@@ -257,7 +263,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         alertDialog.show();
     }
 
-    private void deleteProduct() {
+    private void deleteProduct()
+    {
 
         if (inventoryUri != null) {
             int rowDeleted = getContentResolver().delete(inventoryUri, null, null);
@@ -294,7 +301,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         showUnsavedChangedDialog(discardButtonClickListener);
     }
 
-    private void showUnsavedChangedDialog(DialogInterface.OnClickListener discardButtonClickListener) {
+    private void showUnsavedChangedDialog(DialogInterface.OnClickListener discardButtonClickListener)
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getString(R.string.discard_changes));
         builder.setPositiveButton(getString(R.string.discard), discardButtonClickListener);
@@ -312,7 +320,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         alertDialog.show();
     }
 
-    private void saveProduct() {
+    private void saveProduct()
+    {
 
         String stringName = mNameEditText.getText().toString().trim();
         String stringPrice = mPriceEditText.getText().toString().trim();
@@ -427,21 +436,19 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     }
 
-    private void showToast(String string) {
-
-        Toast.makeText(EditorActivity.this, string, Toast.LENGTH_LONG).show();
-
-    }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
+    public void onLoaderReset(Loader<Cursor> loader)
+    {
         inventoryImage.setImageResource(R.drawable.no_img);
         mNameEditText.setText("");
-        mPriceEditText.setText("");
         mSupnameEditText.setText("");
         mSupmailEditText.setText("");
+        mPriceEditText.setText("");
         mQuantityEditText.setText("");
-
+    }
+    private void showToast(String string)
+    {
+        Toast.makeText(EditorActivity.this, string, Toast.LENGTH_LONG).show();
     }
 }

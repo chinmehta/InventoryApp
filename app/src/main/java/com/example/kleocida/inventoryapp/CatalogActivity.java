@@ -21,20 +21,18 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.kleocida.inventoryapp.data.ProductContract.InventoryEntry;
-/**
- * Created by kleocida on 07/06/17.
- */
-public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+
+public class CatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>
+{
 
     private static final int INVENTORY_LOADER = 0;
     ProductCursorAdapter mCursorAdapter;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +51,8 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         mCursorAdapter = new ProductCursorAdapter(this, null);
         inventoryListView.setAdapter(mCursorAdapter);
 
-        inventoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        inventoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(CatalogActivity.this, DetailsActivity.class);
@@ -67,27 +66,24 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
 
     }
 
-    public void onSaleClick(long id, String name, int price, String supname, String supmail, int previous_quantity, int subtract_quantity) {
+    public void onSaleClick(long id, String name, int price, String supname, String supmail, int previous_quantity, int subtract_quantity)
+    {
         Uri currentProductUri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
         int current = (previous_quantity - subtract_quantity);
 
         ContentValues values1 = new ContentValues();
         values1.put(InventoryEntry.PRODUCT_NAME, name);
-        values1.put(InventoryEntry.PRODUCT_PRICE, price);
-        values1.put(InventoryEntry.PRODUCT_SUPNAME, supname);
-        values1.put(InventoryEntry.PRODUCT_SUPMAIL, supmail);
         values1.put(InventoryEntry.CURRENT_QUANTITY, current);
+        values1.put(InventoryEntry.PRODUCT_SUPNAME, supname);
+        values1.put(InventoryEntry.PRODUCT_PRICE, price);
+        values1.put(InventoryEntry.PRODUCT_SUPMAIL, supmail);
 
         int rowsAffected = getContentResolver().update(currentProductUri, values1, null, null);
 
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.catalogactivity_menu, menu);
-        return true;
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -111,15 +107,17 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void deleteAllInventory() {
-        int rowsDeleted = getContentResolver().delete(InventoryEntry.CONTENT_URI, null, null);
-        Log.v("CatalogActivity", rowsDeleted + " rows deleted from product database");
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.catalogactivity_menu, menu);
+        return true;
     }
 
 
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    public Loader<Cursor> onCreateLoader(int id, Bundle args)
+    {
 
         String[] projection =
                 {
@@ -139,8 +137,14 @@ public class CatalogActivity extends AppCompatActivity implements LoaderManager.
                 null);
     }
 
+    private void deleteAllInventory()
+    {
+        int rowsDeleted = getContentResolver().delete(InventoryEntry.CONTENT_URI, null, null);
+        Log.v("CatalogActivity", rowsDeleted + " rows deleted from product database");
+    }
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data)
+    {
 
         mCursorAdapter.swapCursor(data);
     }

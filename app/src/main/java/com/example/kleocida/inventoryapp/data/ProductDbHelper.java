@@ -6,26 +6,28 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.kleocida.inventoryapp.data.ProductContract.InventoryEntry;
 
-/**
- * Created by kleocida on 07/06/17.
- */
 /* DATABASE HELPER FOR INVENTORY DATABASE */
 
-public class ProductDbHelper extends SQLiteOpenHelper {
+public class ProductDbHelper extends SQLiteOpenHelper
+{
     /* DATABASE NAME */
     public static final int DATABASE_VERSION = 1;
+
     /* DATABASE VERSION */
     public static final String DATABASE_NAME = "inventory.db";
 
-    public ProductDbHelper(Context context) {
+    public ProductDbHelper(Context context)
+    {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db)
+    {
         /* CREATE TABLE */
-        /* CREATE STRING FOR THE SQL STATEMENT */
+        /* CREATE STRING FOR
+            THE SQL STATEMENT */
         String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + InventoryEntry.TABLE_NAME + " ("
                         + InventoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -41,7 +43,8 @@ public class ProductDbHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+    {
 
     }
 }

@@ -25,18 +25,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.kleocida.inventoryapp.data.ProductContract.InventoryEntry;
-/**
- * Created by kleocida on 07/06/17.
- */
-public class DetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+
+public class DetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>
+{
 
 
     private Uri inventoryUri;
     private static final int EXISTING_INVENTORY_LOADER = 0;
 
-    ImageView productImage;
-    TextView productName;
-    TextView productPrice;
+    ImageView mProductImage;
+    TextView mProductName;
+    TextView mProductPrice;
     TextView productQuantity;
     TextView productSupname;
     TextView productSupmail;
@@ -45,14 +44,15 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         setTitle(getString(R.string.product_details));
 
-        productImage = (ImageView) findViewById(R.id.details_product_image);
-        productName = (TextView) findViewById(R.id.details_product_name);
-        productPrice = (TextView) findViewById(R.id.details_product_price);
+        mProductImage = (ImageView) findViewById(R.id.details_product_image);
+        mProductName = (TextView) findViewById(R.id.details_product_name);
+        mProductPrice = (TextView) findViewById(R.id.details_product_price);
         productQuantity = (TextView) findViewById(R.id.details_product_quantity);
         productSupname = (TextView) findViewById(R.id.details_product_supname);
         productSupmail = (TextView) findViewById(R.id.details_product_supmail);
@@ -255,7 +255,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
                 i.setType("message/rfc822");
                 i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.ordering_products));
                 i.putExtra(Intent.EXTRA_EMAIL, new String[]{supmail});
-                String message = "Dear Product Supplier! \n\nWe would like to place the following order of " + productName.getText().toString().trim() + "\n Please let us know when we can expect the delivery.";
+                String message = "Dear Product Supplier! \n\nWe would like to place the following order of " + mProductName.getText().toString().trim() + "\n Please let us know when we can expect the delivery.";
                 i.putExtra(android.content.Intent.EXTRA_TEXT, message);
                 startActivity(Intent.createChooser(i, getString(R.string.send_email)));
                 return true;
@@ -354,13 +354,13 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
                 byte[] b = data.getBlob(intImage);
 
                 if (b == null) {
-                    productImage.setImageResource(R.drawable.no_img);
+                    mProductImage.setImageResource(R.drawable.no_img);
                 } else {
                     Bitmap image = BitmapFactory.decodeByteArray(b, 0, b.length);
-                    productImage.setImageBitmap(image);
+                    mProductImage.setImageBitmap(image);
                 }
-                productName.setText(name);
-                productPrice.setText(String.valueOf(price));
+                mProductName.setText(name);
+                mProductPrice.setText(String.valueOf(price));
 
 
                 if (TextUtils.isEmpty(supname)) {
@@ -387,9 +387,9 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
-        productImage.setImageResource(R.drawable.no_img);
-        productName.setText("");
-        productPrice.setText("");
+        mProductImage.setImageResource(R.drawable.no_img);
+        mProductName.setText("");
+        mProductPrice.setText("");
         productSupname.setText("");
         productSupmail.setText("");
         productQuantity.setText("");
