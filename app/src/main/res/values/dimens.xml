@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="product_image_width">100dp</dimen>
+    <dimen name="product_image_height">100dp</dimen>
+    <dimen name="product_sell_btn">52dp</dimen>
+    <dimen name="list_image_height">4dp</dimen>
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="title_left">4dp</dimen>
+    <dimen name="pd1">2dp</dimen>
+    <dimen name="pd2">8dp</dimen>
+    <dimen name="pd3">16dp</dimen>
+    <dimen name="pd4">4dp</dimen>
+
+</resources>

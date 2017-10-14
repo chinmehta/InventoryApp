@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.kleocida.inventoryapp.CatalogActivity">
+
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:id="@+id/empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/product_image"
+            style="@style/ProductImageStyle"
+            android:src="@drawable/inventory"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/product_textview"
+            style="@style/ProductTextviewStyle"
+            android:text="@string/empty_inventory" />
+
+        <TextView
+            android:id="@+id/product_start"
+            style="@style/ProductTextview2Style"
+            android:text="@string/adding_product" />
+
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        style="@style/FabIconStyle"
+        android:src="@drawable/ic_store_white_48dp"
+        tools:ignore="RtlHardcoded" />
+
+
+</RelativeLayout>

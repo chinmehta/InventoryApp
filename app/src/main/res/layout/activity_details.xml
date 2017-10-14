@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    tools:context="com.example.kleocida.inventoryapp.DetailsActivity">
+
+    <LinearLayout
+        android:id="@+id/details"
+        style="@style/lyn_default"
+        tools:ignore="UselessParent">
+
+        <!-- Product image -->
+        <ImageView
+            android:id="@+id/details_product_image"
+            style="@style/DetailsProductImageStyle"
+            android:src="@drawable/ic_add_a_photo_white_48dp"
+            tools:ignore="ContentDescription"></ImageView>
+
+        <!-- Product name field -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/pd1">
+
+            <TextView
+                style="@style/EditorTitleStyle"
+                android:text="@string/name" />
+
+            <TextView
+                android:id="@+id/details_product_name"
+                style="@style/EditorFieldStyle.Product" />
+
+        </LinearLayout>
+
+        <!-- Product price field -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/pd1">
+
+            <TextView
+                style="@style/EditorTitleStyle"
+                android:text="@string/price" />
+
+            <TextView
+                android:id="@+id/details_product_price"
+                style="@style/EditorFieldStyle.Product" />
+            <TextView
+                android:id="@+id/label_price"
+                style="@style/PriceUnitsStyle"
+                android:text="@string/dollar" />
+
+        </LinearLayout>
+
+        <!-- Product supplier name field -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/pd1">
+
+            <TextView
+                style="@style/EditorTitleStyle"
+                android:text="@string/supname" />
+
+            <TextView
+                android:id="@+id/details_product_supname"
+                style="@style/EditorFieldStyle.Product" />
+
+        </LinearLayout>
+
+        <!-- Product supplier email field -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/pd1">
+
+            <TextView
+
+                style="@style/EditorTitleStyle"
+                android:text="@string/supmail" />
+
+            <TextView
+                android:id="@+id/details_product_supmail"
+                style="@style/EditorFieldStyle.Product" />
+
+
+        </LinearLayout>
+
+        <!-- Product quantity sell / add action buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/pd1">
+
+            <TextView
+
+                style="@style/EditorTitleStyle"
+                android:text="@string/quantity_modify_sell_add" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/lyn_fab">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/sell_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_remove_circle_outline_white_48dp" />
+
+            <TextView
+                android:id="@+id/details_product_quantity"
+                style="@style/DetailsProductQuantity" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/shipment_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_add_circle_outline_white_48dp" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
